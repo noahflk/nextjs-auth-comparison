@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { trpc } from '@/utils/trpc';
 import { Todo } from '@prisma/client';
@@ -20,12 +21,15 @@ export const AddTodo: React.FC = () => {
         { name, done: false, id: Math.floor(Math.random() * 1000) } as Todo,
       ]);
 
-      return { previousTodos };
+      return { previousTodos: previousTodos ?? [] };
     },
-    onError: (error, newTodo, context: any) => {
-      console.log('Failed to add a new todo');
+    onError: (error, newTodo, context) => {
+      toast.error('Failed to add a new todo');
       setValue(newTodo.name);
-      client.setQueryData(['todos.get-all'], context.previousTodos);
+
+      if (context) {
+        client.setQueryData(['todos.get-all'], context.previousTodos);
+      }
     },
     onSettled: () => {
       client.invalidateQueries('todos.get-all');

@@ -1,4 +1,5 @@
 import { Todo as TodoModel } from '@prisma/client';
+import toast from 'react-hot-toast';
 
 import { trpc } from '@/utils/trpc';
 import { TrashIcon } from '@/components/Icons';
@@ -24,11 +25,14 @@ export const Todo: React.FC<{ todo: TodoModel }> = ({ todo }) => {
         });
       });
 
-      return { previousTodos };
+      return { previousTodos: previousTodos ?? [] };
     },
-    onError: (error, newTodo, context: any) => {
-      console.log('Failed to update todo status');
-      client.setQueryData(['todos.get-all'], context.previousTodos);
+    onError: (error, newTodo, context) => {
+      toast.error('Failed to update todo status');
+
+      if (context) {
+        client.setQueryData(['todos.get-all'], context.previousTodos);
+      }
     },
     onSettled: () => {
       client.invalidateQueries('todos.get-all');
@@ -50,11 +54,14 @@ export const Todo: React.FC<{ todo: TodoModel }> = ({ todo }) => {
         });
       });
 
-      return { previousTodos };
+      return { previousTodos: previousTodos ?? [] };
     },
-    onError: (error, newTodo, context: any) => {
-      console.log('Failed to delete todo');
-      client.setQueryData(['todos.get-all'], context.previousTodos);
+    onError: (error, newTodo, context) => {
+      toast.error('Failed to delete todo');
+
+      if (context) {
+        client.setQueryData(['todos.get-all'], context.previousTodos);
+      }
     },
     onSettled: () => {
       client.invalidateQueries('todos.get-all');

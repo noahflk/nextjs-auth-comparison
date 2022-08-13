@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { withTRPC } from '@trpc/next';
 import { ClerkProvider, SignedIn, SignedOut } from '@clerk/nextjs';
 import superjson from 'superjson';
+import { Toaster } from 'react-hot-toast';
 import type { AppType } from 'next/dist/shared/lib/utils';
 
 import type { AppRouter } from '../server/router';
@@ -21,21 +22,24 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
 
   return (
-    <ClerkProvider {...pageProps}>
-      {publicPages.includes(router.pathname) ? (
-        <Component {...pageProps} />
-      ) : (
-        <>
-          <SignedIn>
-            <Component {...pageProps} />
-          </SignedIn>
+    <>
+      <ClerkProvider {...pageProps}>
+        {publicPages.includes(router.pathname) ? (
+          <Component {...pageProps} />
+        ) : (
+          <>
+            <SignedIn>
+              <Component {...pageProps} />
+            </SignedIn>
 
-          <SignedOut>
-            <RedirectToSignIn />
-          </SignedOut>
-        </>
-      )}
-    </ClerkProvider>
+            <SignedOut>
+              <RedirectToSignIn />
+            </SignedOut>
+          </>
+        )}
+      </ClerkProvider>
+      <Toaster />
+    </>
   );
 };
 
