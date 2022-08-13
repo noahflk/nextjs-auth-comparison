@@ -1,9 +1,22 @@
 // src/server/router/context.ts
-import * as trpc from "@trpc/server";
-import * as trpcNext from "@trpc/server/adapters/next";
-import { prisma } from "../db/client";
+import * as trpc from '@trpc/server';
+import * as trpcNext from '@trpc/server/adapters/next';
+import { prisma } from '@/server/db/client';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export const createContext = (opts?: trpcNext.CreateNextContextOptions) => {
+type ClerkSession = {
+  auth?: {
+    sessionId: string;
+    userId: string;
+  };
+};
+
+type ContextOptions = {
+  req: NextApiRequest & ClerkSession;
+  res: NextApiResponse;
+};
+
+export const createContext = (opts?: ContextOptions) => {
   const req = opts?.req;
   const res = opts?.res;
 
