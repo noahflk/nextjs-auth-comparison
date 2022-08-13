@@ -15,7 +15,7 @@ const Home: NextPage = () => {
         </button>
       </div>
       <div className="flex flex-col items-center pt-8 gap-y-8">
-        <h1 className="text-4xl font-medium">Get stuff done</h1>
+        <h1 className="text-4xl font-medium">Clerk implementation</h1>
         <AddTodo />
         <TodoList />
       </div>
