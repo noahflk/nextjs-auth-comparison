@@ -1,7 +1,8 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 
 import { AddTodo } from '@/components/AddTodo';
 import { TodoList } from '@/components/TodoList';
+import { protectedRoute } from '@/utils/auth';
 
 const Home: NextPage = () => {
   // const { signOut } = useAuth();
@@ -18,6 +19,10 @@ const Home: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  return protectedRoute(req);
 };
 
 export default Home;
