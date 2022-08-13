@@ -1,6 +1,4 @@
-// src/server/db/client.ts
-import { PrismaClient } from "@prisma/client";
-import { env } from "../../env/server.mjs";
+import { PrismaClient } from '@prisma/client';
 
 declare global {
   var prisma: PrismaClient | undefined;
@@ -9,9 +7,7 @@ declare global {
 export const prisma =
   global.prisma ||
   new PrismaClient({
-    log: ["query"],
+    log: ['query'],
   });
 
-if (env.NODE_ENV !== "production") {
-  global.prisma = prisma;
-}
+if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
