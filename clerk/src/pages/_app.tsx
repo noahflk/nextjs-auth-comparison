@@ -5,8 +5,8 @@ import superjson from 'superjson';
 import { Toaster } from 'react-hot-toast';
 import type { AppType } from 'next/dist/shared/lib/utils';
 
-import type { AppRouter } from '../server/router';
-import '../styles/globals.css';
+import type { AppRouter } from '@/server/router';
+import '@/styles/globals.css';
 
 const publicPages = ['/sign-in/[[...index]]', '/sign-up/[[...index]]'];
 
